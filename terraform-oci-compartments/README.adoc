@@ -1,4 +1,4 @@
-= compartment path
+= Compartment path
 Ryszard Styczynski, 12-12-2024, version 1.0
 
 == Overview
