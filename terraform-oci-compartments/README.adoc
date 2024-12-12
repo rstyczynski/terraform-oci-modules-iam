@@ -1,0 +1,101 @@
+= compartment path
+Ryszard Styczynski, 12-12-2024, version 1.0
+
+== Overview
+
+The most natural way of addressing resources, widely recognized in the modern computing industry, is an URL concept. It's universal and well known syntax from the internet and it supports a wide variety of resources and services. The same may be applied to OCI resources addressing. Compartment path module delivers ability to work with compartments using variation of URI/URL/URN concepts simplified to UNIX directory path. An example compartment path.: 
+
+```
+/cmp_networking/cmp_security/cmp_databases
+```
+
+represents compartment hierarchy: 
+
+- level 1 compartment cmp_networking,
+- level 2 compartment cmp_security,
+- level 3 compartment cmp_databases.
+
+== Compartment path to OCI identity compartment resources
+
+Product of the module is a map of compartment paths returning OCI identity compartment resource details via 'compartments' output.
+
+```
+compartments = {
+  "/cmp_networking/cmp_security/cmp_databases" = {
+    "compartment_id" = "ocid1.compartment.oc1..aaaaaaaahsilpws7uixxvo2rzj2fqnbijqwshy62qlooydbmugvneulicakq"
+    "defined_tags" = tomap()
+    "description" = "cmp_databases"
+    "enable_delete" = false
+    "freeform_tags" = tomap({})
+    "id" = "ocid1.compartment.oc1..aaaaaaaajxcs4qi47yax7xbjfjxxjdifpeoftyyqttlth2ncndg25mxjxx4a"
+    "inactive_state" = ""
+    "is_accessible" = true
+    "name" = "cmp_databases"
+    "state" = "ACTIVE"
+    "time_created" = "2024-12-11 19:14:36.606 +0000 UTC"
+    }
+}
+```
+
+== Compartment discovery
+
+The discovery functionality is a key part of the module. It converts a provided list of compartment paths into a map populated with the OCI oci_identity_compartment resource details. To use this feature, set the 'existing_compartments' variable with a list of compartment paths. The resulting data can be accessed through the 'external_compartments' output.
+
+```
+  existing_compartments = [
+    "/cmp_networking/cmp_security/cmp_databases"
+  ]
+```
+
+== Compartment management
+
+Compartment life-cycle management is another key feature of the module. This functionality allows you to create, configure, update, and delete compartments based on the instructions provided in the 'compartments' variable. The resulting data is returned through the 'managed_compartments' output.
+
+```
+  compartments = {
+    "/cmp_security" = {
+        description = "security resources"
+        enable_delete = true
+    },
+    "/cmp_security/cmp_siem" = {
+        description = "siem resources"
+        enable_delete = true
+    }
+  }
+```
+
+To take control of a full compartment path, you need to create each level of the hierarchy. However, it is possible to create a new compartment within an existing compartment path. In this case, the path prefix must be added to the 'existing_compartments' variable to ensure it is discovered before the new compartment is created.
+
+== Outputs
+
+The module provides three maps through its outputs:
+
+|===
+| Output Name | Description
+
+
+| `compartments`        
+| A combined view of all compartments, including both existing and managed compartments.         
+
+| `external_compartments` 
+| A map of external compartments discovered via the 
+
+
+| `managed_compartments` 
+| A map of compartments created, configured, or managed by the module.
+
+|===
+
+All maps return the oci_identity_compartment data structure for the respective compartment path key.
+
+== next steps
+
+This work can be further extended by adding a prefix that indicates the resource type, along with optional tenancy and OCI realm information. The latter is particularly useful for addressing inter-tenancy cooperation use cases, and the former is mandatory in case of adopting URL scheme to address other OCI resources.
+
+```
+cmp://cmp_networking/cmp_security/cmp_databases
+
+mek://cmp_networking/cmp_security/cmp_databases/mek_dd
+
+drg:acme_tenency@oc99//cmp_networking/cmp_security/cmp_network/drg_main-01
+```
