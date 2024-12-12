@@ -95,7 +95,7 @@ This work can be further extended by adding a prefix that indicates the resource
 ```
 cmp://cmp_networking/cmp_security/cmp_databases
 
-mek://cmp_networking/cmp_security/cmp_databases/mek_dd
+mek://cmp_networking/cmp_security/cmp_databases/mek_db
 
-drg:acme_tenency@oc99//cmp_networking/cmp_security/cmp_network/drg_main-01
+drg:acme_tenancy@oc99//cmp_networking/cmp_security/cmp_network/drg_main-01
 ```
