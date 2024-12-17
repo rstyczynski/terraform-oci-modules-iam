@@ -99,3 +99,9 @@ mek://cmp_networking/cmp_security/cmp_databases/mek_db
 
 drg:acme_tenancy@oc99//cmp_networking/cmp_security/cmp_network/drg_main-01
 ```
+
+== Changelog
+
+1.0.1
+
+* providing non-existing compartment for discovery returns informative error
