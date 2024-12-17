@@ -10,7 +10,12 @@ locals {
   )
 
   external_compartments = {
-    for key, value in local.external_compartments_envelope : key => value.compartments[0]
+    for key, value in local.external_compartments_envelope : key => 
+      try (value.compartments[0], null) == null ? (
+        null
+      ):(
+        value.compartments[0]
+      )
   }
 }
 
