@@ -10,8 +10,7 @@ locals {
   tenancy_id = var.tenancy_ocid
   
   existing_compartments = [
-    "/avq_automation",
-    "/avq_nwdeplsvc",
+    "/cmp_automation",
     "/fake"
   ]
 
